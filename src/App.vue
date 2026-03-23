@@ -831,6 +831,8 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* HEADER CONTROLS (TABS SELECTION) */
