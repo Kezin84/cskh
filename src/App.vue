@@ -156,16 +156,27 @@ const uniqueTopics = computed(() => {
 
 const availableDetails = computed(() => {
   if (!selectedTopic.value) return []
+  if (selectedTopic.value === 'TẤT CẢ') {
+    const details = vanDe.value.map(row => row.TOPIC_DETAILS).filter(d => d)
+    return [...new Set(details)]
+  }
   const details = vanDe.value
     .filter(row => row.TOPIC === selectedTopic.value)
     .map(row => row.TOPIC_DETAILS)
-    .filter(Boolean)
+    .filter(d => d)
   return [...new Set(details)]
 })
 
+const selectedRow = computed(() => {
+  if (!selectedTopic.value || !selectedTopicDetail.value) return null
+  if (selectedTopic.value === 'TẤT CẢ') {
+    return vanDe.value.find(row => row.TOPIC_DETAILS === selectedTopicDetail.value)
+  }
+  return vanDe.value.find(row => row.TOPIC === selectedTopic.value && row.TOPIC_DETAILS === selectedTopicDetail.value)
+})
+
 const selectedContent = computed(() => {
-  if (!selectedTopic.value || !selectedTopicDetail.value) return ''
-  const row = vanDe.value.find(row => row.TOPIC === selectedTopic.value && row.TOPIC_DETAILS === selectedTopicDetail.value)
+  const row = selectedRow.value
   if (!row || !row.REPLY_CONTENT) return ''
   
   // Xử lý các dạng ngắt dòng (newline) từ Google Sheets/Database
@@ -420,6 +431,7 @@ function formatData(col: string, value: any) {
           <label class="form-label">1. CHỦ ĐỀ CHÍNH</label>
           <select v-model="selectedTopic" @change="selectedTopicDetail = ''" class="form-select">
             <option value="" disabled>-- Bấm để chọn chủ đề --</option>
+            <option value="TẤT CẢ"> TẤT CẢ</option>
             <option v-for="topic in uniqueTopics" :key="topic" :value="topic">{{ topic }}</option>
           </select>
         </div>
