@@ -1571,6 +1571,11 @@ body {
 
 /* MOBILE RESPONSIVE MEDIA QUERIES */
 @media (max-width: 860px) {
+  /* Prevent iOS Safari Auto-Zoom on form focus */
+  input, select, textarea, .form-input, .form-select, .search-vip-input {
+    font-size: 16px !important;
+  }
+
   .app-container {
     padding: 16px 12px;
   }
